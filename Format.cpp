@@ -310,7 +310,6 @@ fmt::doprintf(FormatterArgs* f)
             for (int i = 0; buf[i] != '\0'; ++i) {
                 f->putChar(buf[i]);
             }
-            //size += outFloat(gen, flt::Float::fromArg(va_arg(va.value, flt::Float::arg_type)), width, precision, flags, cap, type);
             break;
         }
         case 'c':
