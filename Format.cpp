@@ -284,9 +284,13 @@ fmt::doprintf(FormatterArgs* f)
         case 'u':
         case 'o':
         case 'x':
-        case 'X':
-            size += outInteger(f, getInteger(length, f), Signed::No, width, precision, flags, 16, (f->getChar(fmt) == 'X') ? Capital::Yes : Capital::No);
+        case 'X': {
+            Signed sgn = (c == 'd' || c == 'i') ? Signed::Yes : Signed::No;
+            uint8_t radix = (c == 'o') ? 8 : ((c == 'x' || c == 'X') ? 16 : 10);
+            Capital capital = (c == 'X') ? Capital::Yes : Capital::No;
+            size += outInteger(f, getInteger(f), sgn, width, precision, flags, radix, capital);
             break;
+        }
         case 'f':
         case 'F':
         case 'e':
