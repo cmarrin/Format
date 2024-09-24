@@ -63,8 +63,7 @@ fmt::vformat(char* s, uint16_t n, const char* fmt, va_list args)
     return doprintf(&f);
 }
 
-bool
-toNumber(FormatterArgs* f, uint32_t& fmt, uint32_t& n)
+static bool toNumber(FormatterArgs* f, uint32_t& fmt, uint32_t& n)
 {
     n = 0;
     bool haveNumber = false;
