@@ -276,7 +276,8 @@ fmt::doprintf(FormatterArgs* f)
         handleLength(f, fmt);
         
         // Handle the specifier
-        switch (f->getChar(fmt))
+        c = f->getChar(fmt);
+        switch (c)
         {
         case 'd':
         case 'i':
