@@ -141,7 +141,7 @@ static Length handleLength(FormatterArgs* f, uint32_t& fmt)
 }
 
 // 8 and 16 bit integers are upcast by the caller to 32 bit. Ignore the length field
-static int32_t getInteger(Length length, FormatterArgs* f)
+static int32_t getInteger(FormatterArgs* f)
 {
     return int32_t(f->getArg(Type::i16));
 }
@@ -271,21 +271,17 @@ fmt::doprintf(FormatterArgs* f)
         if (f->getChar(fmt) == '.') {
             precision = handleWidth(f, ++fmt);
         }
-        Length length = handleLength(f, fmt);
+        
+        // Accept but ignore length
+        handleLength(f, fmt);
         
         // Handle the specifier
         switch (f->getChar(fmt))
         {
         case 'd':
         case 'i':
-            size += outInteger(f, getInteger(length, f), Signed::Yes, width, precision, flags, 10, Capital::No);
-            break;
         case 'u':
-            size += outInteger(f, getInteger(length, f), Signed::No, width, precision, flags, 10, Capital::No);
-            break;
         case 'o':
-            size += outInteger(f, getInteger(length, f), Signed::No, width, precision, flags, 8, Capital::No);
-            break;
         case 'x':
         case 'X':
             size += outInteger(f, getInteger(length, f), Signed::No, width, precision, flags, 16, (f->getChar(fmt) == 'X') ? Capital::Yes : Capital::No);
