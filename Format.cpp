@@ -100,7 +100,7 @@ static int32_t handleWidth(FormatterArgs* f, uint32_t& fmt)
 {
     if (f->getChar(fmt) == '*') {
         ++fmt;
-        return int32_t(f->getArg(Type::i16));
+        return int32_t(f->getArg(Type::u));
     }
     
     uint32_t n;
@@ -143,7 +143,7 @@ static Length handleLength(FormatterArgs* f, uint32_t& fmt)
 // 8 and 16 bit integers are upcast by the caller to 32 bit. Ignore the length field
 static int32_t getInteger(FormatterArgs* f)
 {
-    return int32_t(f->getArg(Type::i16));
+    return int32_t(f->getArg(Type::i));
 }
 
 static char* intToString(uint64_t value, char* buf, size_t size, uint8_t base = 10, Capital cap = Capital::No)
@@ -318,12 +318,12 @@ fmt::doprintf(FormatterArgs* f)
         }
         case 'c':
             // Chars are passed in as uint32
-            f->putChar(static_cast<char>(f->getArg(Type::i8)));
+            f->putChar(static_cast<char>(f->getArg(Type::u)));
             size++;
             break;
         case 'b': {
             // Booleans are passed in as ArgType
-            const char* s = f->getArg(Type::i8) ? "true" : "false";
+            const char* s = f->getArg(Type::u) ? "true" : "false";
             for (int i = 0; s[i] != '\0'; ++i) {
                 f->putChar(s[i]);
             }

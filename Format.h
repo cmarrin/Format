@@ -37,7 +37,7 @@ static inline float intToFloat(uint32_t i) { return *(reinterpret_cast<float*>(&
 
 namespace fmt {
 
-enum class Type { i8, i16, i32, flt, str, ptr };
+enum class Type { i, u, flt, str, ptr };
 
 class FormatterArgs
 {
@@ -47,7 +47,7 @@ class FormatterArgs
     virtual uint8_t getChar(uint32_t i) const = 0;
     virtual void putChar(uint8_t c) = 0;
     virtual uint8_t getStringChar(uintptr_t p) const = 0;
-    virtual uintptr_t getArg(Type type) = 0;
+    virtual intptr_t getArg(Type type) = 0;
     virtual void end() { }
 };
 
@@ -63,7 +63,7 @@ class NativePrintArgs : public FormatterArgs
     virtual ~NativePrintArgs() { }
     virtual uint8_t getChar(uint32_t i) const override { return _fmt[i]; }
     virtual void putChar(uint8_t c) override { ::putChar(c); }
-    virtual uintptr_t getArg(Type type) override
+    virtual intptr_t getArg(Type type) override
     {
         if (type == Type::flt) {
             double d = va_arg(_args, double);
