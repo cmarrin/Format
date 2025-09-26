@@ -15,7 +15,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#ifdef ARDUINO
+#if defined ARDUINO
     #include <Arduino.h>
     #include <EEPROM.h>
     
@@ -28,7 +28,8 @@
     static inline void putChar(uint8_t c) { ::putchar(c); }
     static inline void toString(char* s, float val, int8_t width = 0, uint8_t precision = 0)
     {
-        snprintf(s, 20, "%*.*g", width, precision, val);
+        // Limit size of width and precision to avoid overflow warnings.
+        snprintf(s, 50, "%*.*g", width%20, precision%20, val);
     }
 #endif
 

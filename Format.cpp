@@ -308,8 +308,19 @@ fmt::doprintf(FormatterArgs* f)
             case 'g': cap = Capital::No; type = FloatType::Shortest; break;
             case 'G': cap = Capital::Yes; type = FloatType::Shortest; break;
             }
+            
+            (void) cap;
+            (void) type;
 
-            char buf[20];
+            char buf[50];
+            
+            // We limit the range of width and precision so the returned value will fit in the buffer
+            if (width > 20) {
+                width = 20;
+            }
+            if (precision > 20) {
+                precision = 20;
+            }
             toString(buf, intToFloat(int32_t(f->getArg(Type::flt))), width, (precision < 0) ? 6 : precision);
             for (int i = 0; buf[i] != '\0'; ++i) {
                 f->putChar(buf[i]);
